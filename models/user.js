@@ -10,7 +10,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  membership: {
+  isMember: {
     type: Boolean,
     required: true,
     default: false,
