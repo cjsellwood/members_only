@@ -7,6 +7,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const session = require("express-session");
+const methodOverride = require("method-override");
 
 // Mongoose models
 const User = require("./models/user");
@@ -14,7 +15,7 @@ const Message = require("./models/message");
 
 // Routers
 const userRouter = require("./routes/user");
-const { urlencoded } = require("body-parser");
+const messageRouter = require("./routes/message");
 
 // Connect to mongo database
 const dbURL = "mongodb://localhost/members_only";
@@ -29,7 +30,8 @@ db.once("open", () => {
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.use(urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 // Session info
 const sessionConfig = {
@@ -75,10 +77,8 @@ app.use((req, res, next) => {
 
 // Imported routes
 app.use("/", userRouter);
+app.use("/", messageRouter);
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
 
 app.listen(3000, () => {
   console.log("Listening on Port 3000");

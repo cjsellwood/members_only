@@ -3,15 +3,20 @@
 <form action="/register" method="POST">
   <div>
     <label for="username">Username</label>
-    <input id="username" name="username" type="text" />
+    <input id="username" name="username" type="text" required />
   </div>
   <div>
     <label for="password">Password</label>
-    <input id="password" name="password" type="password" />
+    <input id="password" name="password" type="password" required />
   </div>
   <div>
     <label for="confirmPassword">Confirm Password</label>
-    <input id="confirmPassword" name="confirmPassword" type="password" />
+    <input
+      id="confirmPassword"
+      name="confirmPassword"
+      type="password"
+      required
+    />
   </div>
   <button type="submit">Submit</button>
 </form>

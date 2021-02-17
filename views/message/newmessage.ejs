@@ -1,0 +1,13 @@
+<%- layout("layout/boilerplate") %>
+<h1>New Message</h1>
+<form action="/newmessage" method="POST">
+  <div>
+    <label for="title">Title</label>
+    <input id="title" name="title" type="text" required />
+  </div>
+  <div>
+    <label for="text">Message</label>
+    <textarea id="text" name="text" type="text" required></textarea>
+  </div>
+  <button type="submit">Submit</button>
+</form>

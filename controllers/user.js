@@ -27,6 +27,11 @@ module.exports.registerUser = async (req, res, next) => {
   });
   await newUser.save();
 
+  // Login user
+  req.login(newUser, (err) => {
+    if (err) return next(err);
+  });
+
   // Go back to home page
   res.redirect("/");
 };
@@ -38,11 +43,28 @@ module.exports.loginForm = (req, res) => {
 
 // Post data from login form to login user
 module.exports.loginUser = (req, res, next) => {
-  res.redirect("/")
-}
+  res.redirect("/");
+};
 
 // Get user logout route
 module.exports.logoutUser = (req, res) => {
   req.logout();
-  res.redirect("/")
-}
+  res.redirect("/");
+};
+
+// Get become member form
+module.exports.membershipForm = (req, res) => {
+  res.render("user/membership");
+};
+
+module.exports.becomeMember = async (req, res, next) => {
+  const { secret } = req.body;
+  // #TODO replace with env variable and show they were wrong
+  if (secret !== "secret") {
+    return res.redirect("/membership");
+  }
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    isMember: true,
+  });
+  res.redirect("/");
+};

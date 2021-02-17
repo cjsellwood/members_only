@@ -17,4 +17,7 @@ router.post(
 
 router.get("/logout", user.logoutUser);
 
+router.get("/membership", user.membershipForm);
+
+router.patch("/membership", user.becomeMember);
 module.exports = router;

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./user");
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
@@ -16,7 +17,7 @@ const messageSchema = new Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: User
   },
 });
 
