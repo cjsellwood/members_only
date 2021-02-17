@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+console.log(process.env.NODE_ENV);
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -9,7 +15,9 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const ExpressError = require("./utils/ExpressError");
-const flash = require("connect-flash")
+const flash = require("connect-flash");
+const compression = require("compression");
+const helmet = require("helmet");
 
 // Mongoose models
 const User = require("./models/user");
@@ -19,8 +27,13 @@ const Message = require("./models/message");
 const userRouter = require("./routes/user");
 const messageRouter = require("./routes/message");
 
+// Use local database in development mode
+let dbURL = process.env.DB_URL;
+if (process.env.NODE_ENV !== "production") {
+  dbURL = "mongodb://localhost/members_only";
+}
+
 // Connect to mongo database
-const dbURL = "mongodb://localhost/members_only";
 mongoose.connect(dbURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -36,12 +49,16 @@ db.once("open", () => {
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.set(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(compression());
+app.use(helmet());
 
 // Session info
+const sessionSecret = process.env.SESSION_SECRET || "sessionsecret";
 const sessionConfig = {
-  secret: "sessionsecret",
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: true,
 };
@@ -105,6 +122,7 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).render("error", { err });
 });
 
-app.listen(3000, () => {
-  console.log("Listening on Port 3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log("Listening on Port " + port);
 });

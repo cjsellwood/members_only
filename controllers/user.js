@@ -12,12 +12,6 @@ module.exports.registerForm = (req, res) => {
 module.exports.registerUser = async (req, res, next) => {
   const { username, password, confirmPassword } = req.body;
 
-  // #TODO - Show to user somehow
-  // If passwords don't match return to register form
-  // if (password !== confirmPassword) {
-  //   return res.redirect("/register");
-  // }
-
   // Hash password with bcrypt
   const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -78,8 +72,8 @@ module.exports.membershipForm = (req, res) => {
 // Patch in membership status to true if code was correct
 module.exports.becomeMember = async (req, res, next) => {
   const { secret } = req.body;
-  // #TODO replace with env variable and show they were wrong
-  if (secret !== "secret") {
+
+  if (secret !== process.env.SECRET_CODE) {
     req.flash("error", "Wrong Code")
     return res.redirect("/membership");
   }
@@ -98,8 +92,8 @@ module.exports.AdminForm = async (req, res, next) => {
 // Patch in admin status to true if code was correct
 module.exports.becomeAdmin = async (req, res, next) => {
   const { secret } = req.body;
-  // #TODO replace with env variable and show they were wrong
-  if (secret !== "secret") {
+
+  if (secret !== process.env.ADMIN_CODE) {
     req.flash("error", "Wrong Code")
     return res.redirect("/admin");
   }

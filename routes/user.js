@@ -13,7 +13,10 @@ router.get("/login", user.loginForm);
 
 router.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: "Username or password incorrect",
+  }),
   user.loginUser
 );
 
