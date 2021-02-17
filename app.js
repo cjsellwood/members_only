@@ -94,6 +94,7 @@ app.use((err, req, res, next) => {
   console.log(err);
   if (!err.statusCode) {
     err.message = "Something went wrong";
+    err.statusCode = 500;
   }
   res.status(err.statusCode).render("error", { err });
 });
