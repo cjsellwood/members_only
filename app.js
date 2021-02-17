@@ -103,6 +103,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Sanitize mongo queries from user forms
+app.use(mongoSanitize({
+  replaceWith: '_'
+}))
+
 // Imported routes
 app.use("/", userRouter);
 app.use("/", messageRouter);
