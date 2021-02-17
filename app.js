@@ -8,6 +8,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const methodOverride = require("method-override");
+const ExpressError = require("./utils/ExpressError");
 
 // Mongoose models
 const User = require("./models/user");
@@ -82,6 +83,20 @@ app.use((req, res, next) => {
 // Imported routes
 app.use("/", userRouter);
 app.use("/", messageRouter);
+
+// Handle Page not found
+app.use("*", (req, res, next) => {
+  next(new ExpressError("Page not found", 404));
+});
+
+// Handle errors
+app.use((err, req, res, next) => {
+  console.log(err);
+  if (!err.statusCode) {
+    err.message = "Something went wrong";
+  }
+  res.status(err.statusCode).render("error", { err });
+});
 
 app.listen(3000, () => {
   console.log("Listening on Port 3000");

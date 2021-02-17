@@ -15,7 +15,7 @@
     <% } %>
     <p><%= message.text %></p>
     <% if (currentUser && currentUser.isMember) {%>
-    <p><em><%= message.time %></em></p>
+    <p><em><%= message.formattedTime %></em></p>
     <% } %> <% if (currentUser && currentUser.isAdmin) { %>
     <form method="POST" action="/delete/<%= message._id %>?_method=DELETE">
       <button type="submit">Delete</button>

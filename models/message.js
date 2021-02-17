@@ -17,8 +17,12 @@ const messageSchema = new Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: User
+    ref: User,
   },
+});
+
+messageSchema.virtual("formattedTime").get(function () {
+  return `${this.time.toLocaleTimeString()} ${this.time.toLocaleDateString()}`;
 });
 
 module.exports = new mongoose.model("Message", messageSchema);

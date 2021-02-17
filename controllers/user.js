@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const User = require("../models/user");
 
+
 // Get register new user form
 module.exports.registerForm = (req, res) => {
   res.render("user/register");
@@ -42,7 +43,7 @@ module.exports.loginForm = (req, res) => {
 };
 
 // Post data from login form to login user
-module.exports.loginUser = (req, res, next) => {
+module.exports.loginUser = (req, res) => {
   const url = req.session.returnTo || "/"
   res.redirect(url);
 };
