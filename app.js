@@ -19,7 +19,11 @@ const messageRouter = require("./routes/message");
 
 // Connect to mongo database
 const dbURL = "mongodb://localhost/members_only";
-mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(dbURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
@@ -78,7 +82,6 @@ app.use((req, res, next) => {
 // Imported routes
 app.use("/", userRouter);
 app.use("/", messageRouter);
-
 
 app.listen(3000, () => {
   console.log("Listening on Port 3000");

@@ -43,7 +43,8 @@ module.exports.loginForm = (req, res) => {
 
 // Post data from login form to login user
 module.exports.loginUser = (req, res, next) => {
-  res.redirect("/");
+  const url = req.session.returnTo || "/"
+  res.redirect(url);
 };
 
 // Get user logout route
@@ -57,6 +58,7 @@ module.exports.membershipForm = (req, res) => {
   res.render("user/membership");
 };
 
+// Patch in membership status to true if code was correct
 module.exports.becomeMember = async (req, res, next) => {
   const { secret } = req.body;
   // #TODO replace with env variable and show they were wrong
@@ -65,6 +67,24 @@ module.exports.becomeMember = async (req, res, next) => {
   }
   const user = await User.findByIdAndUpdate(req.user._id, {
     isMember: true,
+  });
+  res.redirect("/");
+};
+
+// Get become admin form
+module.exports.AdminForm = async (req, res, next) => {
+  res.render("user/admin");
+}
+
+// Patch in admin status to true if code was correct
+module.exports.becomeAdmin = async (req, res, next) => {
+  const { secret } = req.body;
+  // #TODO replace with env variable and show they were wrong
+  if (secret !== "secret") {
+    return res.redirect("/admin");
+  }
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    isAdmin: true,
   });
   res.redirect("/");
 };

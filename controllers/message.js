@@ -3,9 +3,8 @@ const Message = require("../models/message");
 // Get Home page with messages
 module.exports.displayMessages = async (req, res, next) => {
   const messages = await Message.find({}).populate("author", "username");
-  res.render("index", {messages});
-}
-
+  res.render("index", { messages });
+};
 
 // Get new message form
 module.exports.newMessageForm = (req, res) => {
@@ -15,7 +14,6 @@ module.exports.newMessageForm = (req, res) => {
 // Post new message to database
 module.exports.saveNewMessage = async (req, res, next) => {
   const { title, text } = req.body;
-  console.log(req.user);
   const newMessage = new Message({
     title,
     text,
@@ -23,6 +21,12 @@ module.exports.saveNewMessage = async (req, res, next) => {
     author: req.user._id,
   });
   await newMessage.save();
-  console.log(newMessage);
-  res.redirect("/")
+  res.redirect("/");
+};
+
+// Delete message if admin
+module.exports.deleteMessage = async (req, res, next) => {
+  const { id } = req.params;
+  const deletedMessage = await Message.findByIdAndDelete(id);
+  res.redirect("/");
 };
