@@ -1,11 +1,6 @@
 <%- layout("layout/boilerplate") %>
 <h1>Members Only</h1>
 <% if (currentUser) { %>
-<p>User: <%= currentUser.username %></p>
-<p>Password: <%= currentUser.password %></p>
-<p>Is Member: <%= currentUser.isMember %></p>
-<p>Is Admin: <%= currentUser.isAdmin %></p>
-
 <main>
   <% for (let message of messages) { %>
   <section>

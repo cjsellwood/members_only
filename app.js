@@ -2,8 +2,6 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-console.log(process.env.NODE_ENV);
-
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -50,22 +48,59 @@ db.once("open", () => {
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.set(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(compression());
 app.use(helmet());
 
+// Sanitize mongo queries from user forms
+app.use(mongoSanitize({
+  replaceWith: '_'
+}))
+
+
 // Session info
 const sessionSecret = process.env.SESSION_SECRET || "sessionsecret";
 const sessionConfig = {
   secret: sessionSecret,
+  name: "membersOnly",
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  }
 };
+if (process.env.NODE_ENV === "production") {
+  sessionConfig.cookie.secure = true
+}
+
+
 app.use(session(sessionConfig));
 
 app.use(flash());
+
+// Stop not secure error
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'"],
+      scriptSrc: ["'unsafe-inline'", "'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      workerSrc: ["'self'", "blob:"],
+      objectSrc: [],
+      imgSrc: [
+        "'self'",
+        "blob:",
+        "data:",
+      ],
+      fontSrc: ["'self'"],
+    },
+  })
+);
 
 // Passport authentication
 app.use(passport.initialize());
@@ -104,10 +139,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Sanitize mongo queries from user forms
-app.use(mongoSanitize({
-  replaceWith: '_'
-}))
 
 // Imported routes
 app.use("/", userRouter);
@@ -129,6 +160,6 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+app.listen(port, "10.0.0.6", () => {
   console.log("Listening on Port " + port);
 });
