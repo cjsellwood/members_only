@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 const user = require("../controllers/user");
 const passport = require("passport");
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, validateUser } = require("../middleware");
 const catchAsync = require("../utils/catchAsync");
 
 router.get("/register", user.registerForm);
 
-router.post("/register", catchAsync(user.registerUser));
+router.post("/register", validateUser, catchAsync(user.registerUser));
 
 router.get("/login", user.loginForm);
 

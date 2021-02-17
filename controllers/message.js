@@ -21,6 +21,7 @@ module.exports.saveNewMessage = async (req, res, next) => {
     author: req.user._id,
   });
   await newMessage.save();
+  req.flash("success", "Message added")
   res.redirect("/");
 };
 
@@ -28,5 +29,6 @@ module.exports.saveNewMessage = async (req, res, next) => {
 module.exports.deleteMessage = async (req, res, next) => {
   const { id } = req.params;
   const deletedMessage = await Message.findByIdAndDelete(id);
+  req.flash("success", "Message deleted")
   res.redirect("/");
 };

@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const ExpressError = require("./utils/ExpressError");
+const flash = require("connect-flash")
 
 // Mongoose models
 const User = require("./models/user");
@@ -46,6 +47,8 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 
+app.use(flash());
+
 // Passport authentication
 app.use(passport.initialize());
 app.use(passport.session());
@@ -77,6 +80,9 @@ passport.deserializeUser(async (id, done) => {
 // Save user to locals for use in templates
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  // Save flash to locals
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   next();
 });
 

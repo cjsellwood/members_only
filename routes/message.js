@@ -8,7 +8,12 @@ router.get("/", catchAsync(message.displayMessages));
 
 router.get("/newmessage", isLoggedIn, message.newMessageForm);
 
-router.post("/newmessage", isLoggedIn, validateMessage, catchAsync(message.saveNewMessage));
+router.post(
+  "/newmessage",
+  isLoggedIn,
+  validateMessage,
+  catchAsync(message.saveNewMessage)
+);
 
 router.delete(
   "/delete/:id",

@@ -14,9 +14,9 @@ module.exports.registerUser = async (req, res, next) => {
 
   // #TODO - Show to user somehow
   // If passwords don't match return to register form
-  if (password !== confirmPassword) {
-    return res.redirect("/register");
-  }
+  // if (password !== confirmPassword) {
+  //   return res.redirect("/register");
+  // }
 
   // Hash password with bcrypt
   const hashedPassword = await bcrypt.hash(password, 12);
@@ -26,7 +26,21 @@ module.exports.registerUser = async (req, res, next) => {
     username,
     password: hashedPassword,
   });
-  await newUser.save();
+
+  // If mongoose error flash error and show register form again
+  try {
+    await newUser.save();
+  } catch(err) {
+    if (err.code === 11000) {
+      req.flash("error", "User already exists")
+    } else {
+      req.flash("error", "Something went wrong")
+    }
+    return res.redirect("/register")
+  }
+
+  // Flash message
+  req.flash("success", "Registered and logged in")
 
   // Login user
   req.login(newUser, (err) => {
@@ -45,12 +59,14 @@ module.exports.loginForm = (req, res) => {
 // Post data from login form to login user
 module.exports.loginUser = (req, res) => {
   const url = req.session.returnTo || "/"
+  req.flash("success", "Logged In")
   res.redirect(url);
 };
 
 // Get user logout route
 module.exports.logoutUser = (req, res) => {
   req.logout();
+  req.flash("success", "Logged Out")
   res.redirect("/");
 };
 
@@ -64,11 +80,13 @@ module.exports.becomeMember = async (req, res, next) => {
   const { secret } = req.body;
   // #TODO replace with env variable and show they were wrong
   if (secret !== "secret") {
+    req.flash("error", "Wrong Code")
     return res.redirect("/membership");
   }
   const user = await User.findByIdAndUpdate(req.user._id, {
     isMember: true,
   });
+  req.flash("success", "You are now a member")
   res.redirect("/");
 };
 
@@ -82,10 +100,13 @@ module.exports.becomeAdmin = async (req, res, next) => {
   const { secret } = req.body;
   // #TODO replace with env variable and show they were wrong
   if (secret !== "secret") {
+    req.flash("error", "Wrong Code")
     return res.redirect("/admin");
   }
   const user = await User.findByIdAndUpdate(req.user._id, {
     isAdmin: true,
   });
+
+  req.flash("success", "You are now an Admin")
   res.redirect("/");
 };
