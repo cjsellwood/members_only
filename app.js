@@ -18,6 +18,7 @@ const ExpressError = require("./utils/ExpressError");
 const flash = require("connect-flash");
 const compression = require("compression");
 const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize")
 
 // Mongoose models
 const User = require("./models/user");
