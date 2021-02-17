@@ -73,7 +73,7 @@ module.exports.membershipForm = (req, res) => {
 module.exports.becomeMember = async (req, res, next) => {
   const { secret } = req.body;
 
-  if (secret !== process.env.SECRET_CODE) {
+  if (secret !== process.env.MEMBER_CODE) {
     req.flash("error", "Wrong Code")
     return res.redirect("/membership");
   }
