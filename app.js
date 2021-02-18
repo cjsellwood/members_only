@@ -160,7 +160,9 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
-const host = process.env.HOST || "10.0.0.6"
-app.listen(port, host, () => {
+
+app.listen(port, () => {
   console.log("Listening on Port " + port);
 });
+
+console.log(process.env)
