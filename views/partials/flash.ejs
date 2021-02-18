@@ -1,3 +1,18 @@
-<hr />
-<h3><%= success.join(",") %><%= error.join(",") %></h3>
-<hr />
+<% if (success && success.length) { %>
+<div class="flash success">
+  <h3><%= success.join(",") %></h3>
+</div>
+<% } %> <% if (error && error.length) { %>
+<div class="flash error">
+  <h3><%= error.join(",") %></h3>
+</div>
+<% } %>
+<script>
+  // Hide flash button control
+  const flash = document.querySelectorAll(".flash");
+  flash.forEach((el) => {
+    el.addEventListener("click", () => {
+      el.classList.add("hide");
+    });
+  });
+</script>

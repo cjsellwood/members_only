@@ -85,7 +85,6 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -127,6 +126,7 @@ table {
 /* General */
 body * {
   font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
@@ -136,6 +136,7 @@ body {
 
 h1 {
   font-size: 3rem;
+  text-align: center;
 }
 
 h2 {
@@ -152,6 +153,55 @@ h4 {
 
 h5 {
   font-size: 1.25rem;
+}
+
+.centred {
+  margin: 0 auto;
+}
+
+.button {
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.save {
+  background-color: rgb(74, 74, 255);
+}
+
+.save:hover {
+  background-color: rgb(98, 98, 255);
+}
+
+.delete {
+  background-color: rgb(223, 45, 45);
+}
+
+.delete:hover {
+  background-color: rgb(224, 79, 79);
+}
+
+.link-button {
+  display: block;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  width: fit-content;
+  margin-top: 20px;
 }
 
 /* Navbar */
@@ -187,7 +237,7 @@ h5 {
 
 /* Wrap main content */
 .wrapper {
- padding: 20px;
+  padding: 20px;
 }
 
 @media (min-width: 600px) {
@@ -198,3 +248,114 @@ h5 {
 }
 
 /* Error Page */
+
+/* Forms */
+.form {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border: 2px solid rgba(123, 124, 133, 0.459);
+  /* box-shadow: 0px 0px 6px rgba(3, 18, 100, 0.657); */
+  margin: 0 auto;
+  margin-top: 20px;
+  width: min(100%, 400px);
+}
+
+.form label {
+  width: 100%;
+  margin: 10px 0;
+  display: block;
+}
+
+.form input, .form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 1px solid rgb(197, 197, 197);
+  padding: 10px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.form button {
+  margin: 0 auto;
+  display: block;
+}
+
+.form.wide {
+  width: min(100%, 600px);
+}
+
+/* Messages */
+.message {
+  margin: 10px 0;
+  padding: 15px;
+  box-shadow: 0px 0px 5px rgba(25, 20, 82, 0.596);
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  background-color: white;
+  line-height: 1.5;
+}
+
+.message h2 {
+  border-bottom: 1px solid rgba(25, 45, 160, 0.479);
+}
+
+.message h5 {
+  color: rgb(93, 93, 93);
+  border-bottom: 1px solid rgba(25, 45, 160, 0.479);
+  padding: 5px 0;
+}
+
+.message p {
+  margin-top: 10px;
+}
+
+.message button {
+  margin: 10px auto 0 auto;
+}
+
+.action {
+  margin: 20px auto;
+  text-align: center;
+}
+
+/* Flash messages */
+.flash {
+  width: min(500px, 100%);
+  background-color: white;
+  text-align: center;
+  margin: 20px auto;
+  padding: 10px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.flash.success {
+  color: green;
+  border: 2px solid rgba(0, 128, 0, 0.76);
+}
+
+.flash.error {
+  color: red;
+  border: 2px solid rgba(255, 0, 0, 0.76);
+}
+
+.hide {
+  display: none;
+}

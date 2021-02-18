@@ -1,29 +1,26 @@
 <%- layout("layout/boilerplate") %>
 <h1>Members Only</h1>
+<% if (currentUser && !currentUser.isMember) { %>
+  <a class="link-button" href="/membership">Become a member to see authors and times</a> 
+<% } %> 
 <% if (currentUser) { %>
 <main>
   <% for (let message of messages) { %>
-  <section>
+  <section class="message">
     <h2><%= message.title %></h2>
     <% if (currentUser && currentUser.isMember) {%>
-    <h5>By: <%= message.author.username %></h5>
+    <h5><%= message.author.username %> - <%= message.formattedTime %></h5>
     <% } %>
     <p><%= message.text %></p>
-    <% if (currentUser && currentUser.isMember) {%>
-    <p><em><%= message.formattedTime %></em></p>
-    <% } %> <% if (currentUser && currentUser.isAdmin) { %>
+    <% if (currentUser && currentUser.isAdmin) { %>
     <form method="POST" action="/delete/<%= message._id %>?_method=DELETE">
-      <button type="submit">Delete</button>
+      <button class="button delete" type="submit">Delete</button>
     </form>
     <% } %>
   </section>
   <% } %>
 </main>
-<a href="/newmessage">New Message</a>
+<a class="link-button save centred" href="/newmessage">New Message</a>
 <% } else { %>
-<p><a href="/login">Login</a> to see messages</p>
-<% } %> <% if (currentUser && currentUser.isMember) {%>
-<!-- <p>You are a member</p> -->
-<% } else if (currentUser && !currentUser.isMember) { %>
-<p><a href="/membership">Become a member</a> to see authors and times</p>
+  <a class="link-button save centred" href="/login">Login to see messages</a> 
 <% } %>

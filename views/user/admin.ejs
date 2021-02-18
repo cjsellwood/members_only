@@ -1,9 +1,9 @@
 <%- layout("layout/boilerplate") %>
 <h1>Become an Admin</h1>
-<form method="POST" action="/admin?_method=PATCH">
+<form class="form" method="POST" action="/admin?_method=PATCH">
   <div>
     <label for="secret">Enter secret code to become an admin</label>
     <input type="text" id="secret" name="secret" required>
   </div>
-  <button>Become an admin</button>
+  <button class="button save">Become an admin</button>
 </form>

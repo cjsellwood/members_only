@@ -1,9 +1,9 @@
 <%- layout("layout/boilerplate") %>
 <h1>Become a member</h1>
-<form method="POST" action="/membership?_method=PATCH">
+<form class="form" method="POST" action="/membership?_method=PATCH">
   <div>
     <label for="secret">Enter secret code to become a member</label>
     <input type="text" id="secret" name="secret" required>
   </div>
-  <button>Become a member</button>
+  <button class="button save">Become a member</button>
 </form>

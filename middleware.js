@@ -2,8 +2,9 @@ const { userSchema, messageSchema } = require("./joi");
 const ExpressError = require("./utils/ExpressError");
 
 module.exports.isLoggedIn = (req, res, next) => {
-  req.session.returnTo = req.originalUrl;
   if (!req.user) {
+    req.session.returnTo = req.originalUrl;
+    req.flash("error", "You must be signed in");
     return res.redirect("/login");
   }
   next();
