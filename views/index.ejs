@@ -1,7 +1,7 @@
 <%- layout("layout/boilerplate") %>
 <h1>Members Only</h1>
 <% if (currentUser && !currentUser.isMember) { %>
-  <a class="link-button" href="/membership">Become a member to see authors and times</a> 
+  <a class="link-button save centred" href="/membership">Become a member to see authors and times</a> 
 <% } %> 
 <% if (currentUser) { %>
 <main>
