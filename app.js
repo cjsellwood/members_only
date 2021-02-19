@@ -67,6 +67,7 @@ const sessionConfig = {
   name: "membersOnly",
   resave: false,
   saveUninitialized: true,
+  proxy: true,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
